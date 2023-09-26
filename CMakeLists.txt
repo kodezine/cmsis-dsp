@@ -1,5 +1,5 @@
 # Minimum version for cmake compatiblity
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.27)
 include(CMakePrintHelpers)
 include(FetchContent)
 
@@ -24,26 +24,30 @@ if(NOT cmake-toolchains_POPULATED)
     FetchContent_Populate(cmake-toolchains)
 endif()
 
-project(
-    cmsis-dsp-prebuild
-    VERSION     0.0.1
-    LANGUAGES   C ASM CXX
-    DESCRIPTION "Prebuild CMSIS and DSP library for various compilers on STM32 devices"
-)
-set(STM32_TYPE "f0")
-set(STM32_DEVICE "STM32F031x6")
-set(JLINK_DEVICE "STM32F031K6")
-# Not Yet Used
-#set(STM32_HAL_CONFIGURATION "${CMAKE_CURRENT_SOURCE_DIR}/cubemx/Core/Inc/stm32f0xx_hal_conf.h" CACHE STRING "File for configuring the STM32Cube.cmake below" FORCE)
+set(GITHUB_BRANCH_CMSIS "5.9.0")
+set(GITHUB_BRANCH_CMSIS_DSP "1.15.0")
 
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm")
-#    include(${cmake-toolchains_SOURCE_DIR}/frameworks/segger_rtt/segger_rtt.cmake)
-    include(${cmake-toolchains_SOURCE_DIR}/silicon/st/STM32Cube.cmake)
-#    include(${cmake-toolchains_SOURCE_DIR}/frameworks/Quantum_Leaps/quantum_leaps.cmake)
-#    add_subdirectory(cubemx)
-else()
-    message( STATUS "Compiling for Host system")
-endif()
-#include(${cmake-toolchains_SOURCE_DIR}/frameworks/unity/unity.cmake)
-#include(${cmake-toolchains_SOURCE_DIR}/frameworks/cmock/cmock.cmake)
-#add_subdirectory(src/test)
+project(
+    cmsis_dsp
+    VERSION ${GITHUB_BRANCH_CMSIS_DSP}
+    LANGUAGES C
+    DESCRIPTION "Header only library for CMSIS"
+)
+
+include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis/arm_cmsis.cmake)
+include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis_dsp/arm_cmsis_dsp.cmake)
+# This will set the CPACK tar file as
+# cmsis-5.9.0-CMx-Clang-17.0.0.tar.gz
+set(CPACK_PACKAGE_CHECKSUM SHA3_256)
+set(CPACK_SYSTEM_NAME "$ENV{CORTEX_TYPE}-${CMAKE_C_COMPILER_ID}-${CMAKE_C_COMPILER_VERSION}")
+set(CPACK_BINARY_TGZ "ON")
+set(CPACK_BINARY_ZIP "OFF")
+set(CPACK_BINARY_ZIP "OFF")
+set(CPACK_BINARY_NSIS "OFF")
+set(CPACK_SOURCE_IGNORE_FILES
+  \\.git/
+  build/
+  ".*~$"
+)
+set(CPACK_VERBATIM_VARIABLES YES)
+include(CPack)
