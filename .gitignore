@@ -1,3 +1,4 @@
+# CMake Usual Suspects
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
@@ -9,3 +10,19 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+
+# VSCode
+.vscode
+.vs
+.settings
+
+# Build
+[bB]uild
+[dD]ebug
+[rR]elease
+
+# debuggrs
+*.launch
+
+# dot files
+*.dot*
