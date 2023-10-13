@@ -26,7 +26,7 @@ endif()
 
 set(GITHUB_BRANCH_CMSIS "5.9.0")
 set(GITHUB_BRANCH_CMSIS_DSP "1.15.0")
-
+set(GITHUB_PRECOMPILED_CMSIS_V5_TAGNAME "0.1.1" CACHE STRING "Tag for the compatible cmsis_v5 tag")
 project(
     cmsis_dsp
     VERSION ${GITHUB_BRANCH_CMSIS_DSP}
@@ -37,7 +37,7 @@ project(
 include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis/arm_cmsis.cmake)
 include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis_dsp/arm_cmsis_dsp.cmake)
 # This will set the CPACK tar file as
-# cmsis-5.9.0-CMx-Clang-17.0.0.tar.gz
+# cmsis-5.9.0-CMx-Clang-17.0.1.tar.gz
 set(CPACK_PACKAGE_CHECKSUM SHA3_256)
 set(CPACK_SYSTEM_NAME "$ENV{CORTEX_TYPE}-${CMAKE_C_COMPILER_ID}-${CMAKE_C_COMPILER_VERSION}")
 set(CPACK_BINARY_TGZ "ON")
