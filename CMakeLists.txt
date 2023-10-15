@@ -1,12 +1,13 @@
 # Minimum version for cmake compatiblity
 cmake_minimum_required(VERSION 3.27)
+
 include(CMakePrintHelpers)
 include(FetchContent)
 
 # Set branch names for the sub modules dependencies
 set(GITHUB_BRANCH_TOOLCHAIN "HEAD" CACHE STRING "git SHA for CMake Toolchain")
 # set the location of all fetched repos
-# set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/_deps")
+set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/_deps")
 # show limited messages while cloning git repos
 set(FETCHCONTENT_QUIET ON)
 
@@ -24,20 +25,21 @@ if(NOT cmake-toolchains_POPULATED)
     FetchContent_Populate(cmake-toolchains)
 endif()
 
-set(GITHUB_BRANCH_CMSIS "5.9.0")
-set(GITHUB_BRANCH_CMSIS_DSP "1.15.0")
-set(GITHUB_PRECOMPILED_CMSIS_V5_TAGNAME "0.1.1" CACHE STRING "Tag for the compatible cmsis_v5 tag")
+set(GITHUB_BRANCH_cmsis-v5 "5.9.0" CACHE STRING "CMSIS v5 tag")
+set(PRECOMPILED_TAG_cmsis-v5 "0.1.2" CACHE STRING "CMSIS v5 precompiled tag")
+set(GITHUB_BRANCH_cmsis_dsp "1.15.0")
+
 project(
     cmsis_dsp
-    VERSION ${GITHUB_BRANCH_CMSIS_DSP}
+    VERSION ${GITHUB_BRANCH_cmsis_dsp}
     LANGUAGES C
     DESCRIPTION "Header only library for CMSIS"
 )
 
-include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis/arm_cmsis.cmake)
-include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis_dsp/arm_cmsis_dsp.cmake)
+include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_cmsis-v5/arm_cmsis-v5.cmake)
+include(${cmake-toolchains_SOURCE_DIR}/frameworks/arm_${PROJECT_NAME}/arm_${PROJECT_NAME}.cmake)
 # This will set the CPACK tar file as
-# cmsis-5.9.0-CMx-Clang-17.0.1.tar.gz
+# cmsis_dsp-<dspVersion>-<cortexType>-<CompilerName>-<CompilerVersion>.tar.gz
 set(CPACK_PACKAGE_CHECKSUM SHA3_256)
 set(CPACK_SYSTEM_NAME "$ENV{CORTEX_TYPE}-${CMAKE_C_COMPILER_ID}-${CMAKE_C_COMPILER_VERSION}")
 set(CPACK_BINARY_TGZ "ON")
