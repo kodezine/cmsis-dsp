@@ -1,22 +1,19 @@
-# cmsis-dsp
-Precompiled CMSIS DSP object library for STM32H743XI processors
+# cmsis-v5
+CMake based CPack for using cmsis dsp with other toolchains
 
-## Make packages
-
-The following is an example for CPacking Clang 'STM32F031K6'
+## Targets
+How to build for `STM32F031K6`
 ```
-$ clang --preset CPack_Clang_STM32F031K6
-$ clang --build preset CPack_Clang_STM32F031K6 --target package
+$ cmake --preset CPack_Clang_STM32F031K6
+$ cmake --build --preset CPack_Clang_STM32F031K6 --target package
 ```
-
-The following is an example for CPacking Clang 'STM32H7A3ZI'
+How to build for `STM32H7A3ZI`
 ```
-$ clang --preset CPack_Clang_STM32H7A3ZI
-$ clang --build preset CPack_Clang_STM32H7A3ZI --target package
+$ cmake --preset CPack_Clang_STM32H7A3ZI
+$ cmake --build --preset CPack_Clang_STM32H7A3ZI --target package
 ```
-
-The following is an example for CPacking Clang 'STM32H743XI'
+How to build for `STM32H743XI`
 ```
-$ clang --preset CPack_Clang_STM32H743XI
-$ clang --build preset CPack_Clang_STM32H743XI --target package
+$ cmake --preset CPack_Clang_STM32H743XI
+$ cmake --build --preset CPack_Clang_STM32H743XI --target package
 ```
