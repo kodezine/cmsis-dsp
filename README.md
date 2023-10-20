@@ -1,4 +1,4 @@
-# cmsis-v5
+# cmsis_dsp
 CMake based CPack for using cmsis dsp with other toolchains
 
 ## Targets
